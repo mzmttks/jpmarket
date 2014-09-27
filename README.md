@@ -2,6 +2,7 @@ jpmarket
 ===============
 
 Pandas DataReader extension for Japanese market data.
+
 Pandas の DataReader で日本の市場データを読めるようにした拡張。
 
 
