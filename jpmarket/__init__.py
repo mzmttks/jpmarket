@@ -1,15 +1,16 @@
 import datetime
 import time
 
+import numpy
 import jsm
-
 import pandas.compat as compat
+import pandas
 
 
 def DataReader(name, data_source=None, start=None, end=None,
                retry_count=3, pause=0.001):
     """
-    [Docstring is compatible with
+    [This method is compatible with
      https://github.com/pydata/pandas/blob/master/pandas/io/data.py]
 
     Imports data from Japanese market data sources.
@@ -53,9 +54,13 @@ def get_data_yahoojp(symbols=None, start=None, end=None, retry_count=3,
                      pause=0.001, adjust_price=False, ret_index=False,
                      chunksize=25):
     q = jsm.Quotes() 
-    if not isinstance(symbols, list):
-        symbols = [symbols]
 
+    # return DataFrame if len(symbols) = 1
+    if not isinstance(symbols, list):
+        return data2frame(q.get_historical_prices(
+                          symbols, start_date=start, end_date=end))
+
+    # return Panel if len(symbols) > 1
     for i, s in enumerate(symbols):
         try:
             symbols[i] = int(s)
@@ -65,6 +70,23 @@ def get_data_yahoojp(symbols=None, start=None, end=None, retry_count=3,
     prices = []
     for symbol in symbols:
         prices.append(
-            q.get_historical_prices(symbol, start_date=start, end_date=end)
+            data2frame(q.get_historical_prices(
+                symbol, start_date=start, end_date=end))
         )
     return prices
+
+def data2frame(data):
+    props = ["Open", "High", "Low", "Close", "Volume"]
+    frames = []
+    
+    for prop in props:
+        frames.append([getattr(x, prop.lower()) for x in data])
+
+    props.append("Adj Close")
+    frames.append([x._adj_close for x in data])
+    frames = numpy.vstack(frames).transpose()
+
+    dates = [x.date for x in data]
+
+    frames = pandas.DataFrame(frames, columns = props, index = dates)
+    return frames
