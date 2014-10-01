@@ -10,15 +10,19 @@ Pandas の DataReader で日本の市場データを読めるようにした拡�
   * yahoo ファイナンス
   * [Not Yet] Ullet 企業情報
 
+
 Sample code
 ===========
-import jpmarket
-from datetime import datetime
+::
 
-start = datetime(2013, 1, 1)
-end = datetime(2013, 1, 10)
+    import jpmarket
+    from datetime import datetime
+    
+    start = datetime(2013, 1, 1)
+    end = datetime(2013, 1, 10)
+    print jpmarket.DataReader(7203, 'yahoojp', start, end)
 
-print jpmarket.DataReader(7203, 'yahoojp', start, end)
+
 
 * Dependent packages
   * jsm
