@@ -1,3 +1,22 @@
+"""
+DataReader from yahoo.jp finance
+
+This provides a pandas DataReader compatible method
+for accessing yahoo.jp
+
+Example
+=======
+
+import jpmarket
+from datetime import datetime
+
+start = datetime(2013, 1, 1)
+end = datetime(2013, 1, 10)
+data = jpmarket.DataReader(7203, 'yahoojp', start, end)
+
+print data
+
+"""
 import datetime
 import time
 
