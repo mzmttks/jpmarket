@@ -11,13 +11,6 @@ Pandas の DataReader で日本の市場データを読めるようにした拡�
   * [Not Yet] Ullet 企業情報
 
 
-Dependency
-===========
-
-This module depends on jsm and pandas.
-
-   sudo pip install jsm pandas
-
 Sample code
 ===========
 
@@ -29,10 +22,11 @@ Sample code
     print jpmarket.DataReader(7203, 'yahoojp', start, end)
 
 
-
-* Dependent packages
+Dependent packages
+==================
   * jsm
   * lxml
+  * pandas
 
 ToDo
 ====
